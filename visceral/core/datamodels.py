@@ -11,7 +11,7 @@ class Rule:
     condition: str
     action: str
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    confidence: float = 0.5
+    confidence: float = 0.8
     success_count: int = 0
     failure_count: int = 0
     created_at: str = field(default_factory=lambda: datetime.now().isoformat())
@@ -39,8 +39,8 @@ class Decision:
     output: str
     reasoning_steps: List[ReasoningStep]
     final_confidence: float
-    source: str # 'Symbolic Rule' or 'LLM'
+    source: str
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
-    feedback_rating: Optional[int] = None # e.g., 1-5 stars
+    feedback_rating: Optional[int] = None
     feedback_text: Optional[str] = None

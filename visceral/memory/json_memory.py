@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 from typing import Dict, List
+from dataclasses import asdict  # CORRECTED: Import asdict from the standard dataclasses library
 from ..core.datamodels import Rule
 
 class JsonMemory:
@@ -11,7 +12,6 @@ class JsonMemory:
         self.filepath = Path(filepath)
         self.filepath.parent.mkdir(parents=True, exist_ok=True)
         if not self.filepath.exists():
-            # Create an empty list in the file if it's new
             with open(self.filepath, 'w') as f:
                 json.dump([], f)
 
@@ -19,10 +19,8 @@ class JsonMemory:
         """Loads rules from the JSON file into a dictionary."""
         try:
             with open(self.filepath, 'r') as f:
-                # Handle empty file case
                 content = f.read()
-                if not content:
-                    return {}
+                if not content: return {}
                 rules_data = json.loads(content)
             return {data['id']: Rule(**data) for data in rules_data}
         except (json.JSONDecodeError, IOError) as e:
@@ -30,10 +28,10 @@ class JsonMemory:
             return {}
 
     def save_rules(self, rules: List[Rule]):
-        """Saves a list of rules to the JSON file."""
+        """Saves a list of Rule objects to the JSON file."""
         try:
-            # Convert list of Rule objects to list of dictionaries
-            rule_dicts = [rule.__dict__ for rule in rules]
+            # This line now works because 'asdict' is imported correctly.
+            rule_dicts = [asdict(rule) for rule in rules]
             with open(self.filepath, 'w') as f:
                 json.dump(rule_dicts, f, indent=4)
         except IOError as e:
