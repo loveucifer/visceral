@@ -1,0 +1,18 @@
+[project]
+name = "visceral"
+version = "0.1.0"
+description = "An AI agent that evolves its own logic without retraining."
+authors = [{ name = "Your Name", email = "your@email.com" }]
+requires-python = ">=3.9"
+dependencies = [
+    "ollama",
+    "streamlit",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[tool.setuptools]
+packages = ["visceral"]
